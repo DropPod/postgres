@@ -1,7 +1,15 @@
 class postgres {
   package { 'postgres': ensure => installed, provider => 'homebrew' }
 
-  $plist = "/Users/${id}/Library/LaunchAgents/homebrew.postgres.plist"
+  $LaunchAgents = "/Users/${id}/Library/LaunchAgents"
+  unless defined(File[$LaunchAgents]) {
+    file { "${LaunchAgents}":
+      ensure => directory,
+      mode   => '0755',
+    }
+  }
+
+  $plist = "${LaunchAgents}/homebrew.postgres.plist"
   file { "${plist}":
     ensure  => link,
     target  => '/usr/local/opt/postgresql/homebrew.mxcl.postgresql.plist',
