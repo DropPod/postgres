@@ -7,7 +7,7 @@ define postgres::user($password = undef) {
     $sql_password = ''
   }
 
-  exec { "Creating Postres User '${name}'":
+  exec { "Creating Postgres User '${name}'":
     command => "psql postgres -tAc \"CREATE USER \\\"${name}\\\" ${sql_password}\"",
     unless  => "psql postgres -tAc \"SELECT 1 FROM pg_roles WHERE rolname='${name}'\" | grep -q 1",
     path    => "/usr/local/bin:/usr/bin:/bin",
